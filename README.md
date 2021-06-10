@@ -1,2 +1,3 @@
 # Statki
+
 Statki - klient + server
