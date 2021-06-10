@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+#root{
+    position: relative;
+}
+
+.centerX_parent, .centerY_parent, .center_parent {
+    position: relative;
+}
+
+/*horizontal center*/
+.centerX_child {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    margin: 0;
+}
+
+/*vertical centrer*/
+.centerY_child {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    margin: 0;
+}
+
+/*center*/
+.center_child{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+
+
+.floating {
+    float: left;
+}
+
+.newline {
+    clear: both
+}

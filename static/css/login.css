@@ -1,0 +1,9 @@
+#login_container {
+    background-color: none;
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 10px;
+    color: white;
+
+    align-content: center;
+}
