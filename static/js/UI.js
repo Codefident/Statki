@@ -30,10 +30,34 @@ class UI {
         submit.classList.add('newline')
 
         submit.onclick = () => {
-            game.nickname = document.getElementById('name_input').value
+            const nickname = document.getElementById('name_input').value
+            game.nickname = nickname
             console.log(game.nickname)
+
+            net.login(nickname)
         }
 
         container.append(label, input, submit)
     }
+
+    loggedIn() {
+        document.getElementById('login_container').remove()
+
+        let menu = document.createElement('div')
+        menu.id = 'menu'
+        menu.innerHTML = game.nickname
+        this.root.append(menu)
+
+        let logoutButton = document.createElement('button')
+        logoutButton.id = 'logoutButton'
+        logoutButton.innerHTML = 'Wyjdź'
+        logoutButton.onclick = () => net.logout()
+        menu.appendChild(logoutButton)
+
+    }
+
+    notLoggedIn() {
+
+    }
+
 }

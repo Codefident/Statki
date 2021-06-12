@@ -1,70 +1,42 @@
-const http = require('http')
-const fs = require('fs')
-const qs = require('querystring')
-const url_replace = require('../Statki/url_replace')
-let users = []
-
+const express = require('express')
+const app = express()
+const server = require('http').createServer(app)
+const path = require('path')
+const io = require('socket.io')(server, { cors: { origin: '*' } })
 const port = 3000
-const server = http.createServer((req, res) => {
 
-    switch (req.method) {
-        case 'GET':
+let players = []
 
-            if (req.url == '/') {
-                fs.readFile('static/index.html', (err, data) => {
-                    res.writeHead(200, { 'Content-Type': 'text/html;charset=utf-8' })
-                    res.write(data)
-                    res.end()
-                })
+app.use(express.static('static'))
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html')
+})
+
+server.listen(port, () => console.log('Server running at :' + port))
+
+io.on('connection', socket => {
+
+    socket.on('login', nickname => {
+        if (players.length < 2) {
+            players.push({ nickname: nickname, id: socket.id })
+            socket.emit('login', { dodano: true, id: socket.id })
+        }
+        else {
+            socket.emit('login', { dodano: false })
+        }
+        console.log(players)
+    })
+
+    socket.on('logout', id => {
+        console.log('logout')
+        console.log(id)
+        for (i in players) {
+            if (players[i].id == id) {
+                players.splice(i, 1)
             }
+        }
+        console.log(players)
+    })
 
-            else {
-                let url = req.url
-                url = url_replace.url_replace(url)
-
-                fs.readFile(`static${url}`, (err, data) => {
-
-                    if (err) return console.log(err)
-
-                    else if (url.endsWith('.js'))
-                        res.writeHead(200, {
-                            'Content-Type': `application/javascript;charset=utf-8`
-                        })
-
-                    else if (url.endsWith('.css'))
-                        res.writeHead(200, {
-                            'Content-Type': `text/css`
-                        })
-
-                    else if (url.endsWith('.ico'))
-                        res.writeHead(200, {
-                            'Content-Type': `image/x-icon`
-                        })
-
-                    else if (url.endsWith('.png'))
-                        res.writeHead(200, {
-                            'Content-Type': `image/png`
-                        })
-
-                    else if (url.endsWith('.jpg') || url.endsWith('.jpeg'))
-                        res.writeHead(200, {
-                            'Content-Type': `image/jpeg`
-                        })
-
-                    else if (url.endsWith('.mp3'))
-                        res.writeHead(200, {
-                            'Content-Type': 'audio/mpeg'
-                        })
-
-                    res.write(data)
-                    res.end()
-
-                })
-            }
-            break
-
-        case 'POST':
-            break
-    }
-
-}).listen(port, () => console.log('server runs at port ' + port))
+})
