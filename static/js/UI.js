@@ -6,6 +6,8 @@ class UI {
 
     loginPage() {
 
+        this.root.classList.add('d-flex', 'flex-row', 'justify-content-center', 'align-items-center')
+
         let container = document.createElement('div')
         container.classList.add('d-flex')
         container.classList.add('flex-column')
@@ -47,9 +49,12 @@ class UI {
     loggedIn() {
         document.getElementById('login_container').remove()
 
+        this.root.classList.remove('d-flex', 'flex-row', 'justify-content-center', 'align-items-center')
+
         let menu = document.createElement('div')
         menu.id = 'menu'
         menu.innerHTML = game.nickname
+        menu.classList.add('navbar', 'navbar-expand')
         this.root.append(menu)
 
         let logoutButton = document.createElement('button')
