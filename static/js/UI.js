@@ -104,12 +104,12 @@ class UI {
         seaContainer.id = 'seaContainer'
         this.root.appendChild(seaContainer)
 
-        for (let y = 0; y < 10; y++)
+        for (let y = 0; y < 10; y++) {
+            game.sea.push(new Array())
             for (let x = 0; x < 10; x++) {
-                let seaSingleSquare = document.createElement('div')
-                seaSingleSquare.classList.add('seasquare')
-                document.getElementById('seaContainer').appendChild(seaSingleSquare)
+                game.sea[y].push(new Square(x, y))
             }
+        }
     }
 
 }
