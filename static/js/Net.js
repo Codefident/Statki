@@ -2,7 +2,7 @@ class Net {
     constructor() {
         this.socket = null
         this.connection()
-        this.lol = 'lol'
+        this.getOponentNickname()
     }
 
     connection() {
@@ -23,9 +23,10 @@ class Net {
     }
 
     logout() {
-        console.log('logout')
-        console.log(this.socket)
-        console.log(this)
         this.socket.emit('logout', game.id)
+    }
+
+    getOponentNickname() {
+        this.socket.on('oponent', res => ui.displayOponentNickname(res))
     }
 }
