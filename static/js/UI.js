@@ -103,27 +103,56 @@ class UI {
     displaySea() {
         let contentContainer = document.createElement('div')
         contentContainer.id = 'contentContainer'
+        contentContainer.classList.add('d-flex', 'flex-column', 'justify-content-center', 'align-items-center', 'p-2')
         this.root.appendChild(contentContainer)
+
+        let warshipsProgress = document.createElement('div')
+        warshipsProgress.classList.add('progress', 'w-50', 'row')
+        contentContainer.appendChild(warshipsProgress)
+
+        let warshipsProgressBar = document.createElement('div')
+        warshipsProgressBar.id = 'warshipsProgressBar'
+        warshipsProgressBar.classList.add('progress-bar')
+        warshipsProgressBar.setAttribute('role', 'progressbar')
+        warshipsProgressBar.setAttribute('aria-valuemin', '0')
+        warshipsProgressBar.setAttribute('aria-valuemax', '20')
+        warshipsProgressBar.setAttribute('aria-valuenow', '0')
+        warshipsProgress.appendChild(warshipsProgressBar)
 
         let seaContainer = document.createElement('div')
         seaContainer.id = 'seaContainer'
+        seaContainer.classList.add('row', 'm-2')
         contentContainer.appendChild(seaContainer)
 
         for (let y = 0; y < 10; y++) {
             game.sea.push(new Array())
             for (let x = 0; x < 10; x++) {
-                game.sea[y].push(new Square(x, y))
+                game.sea[y].push(new Square(x, y, true))
             }
         }
 
         let readyButton = document.createElement('button')
         readyButton.id = 'readyButton'
-        readyButton.classList.add('btn', 'btn-outline-success')
+        readyButton.classList.add('btn', 'btn-outline-success', 'row', 'm-2')
         readyButton.innerHTML = 'Gotowy'
         readyButton.onclick = () => {
-            net.ready()
+            if (game.warshipsLocations.length == 20) {
+                readyButton.classList.remove('btn-outline-success')
+                readyButton.classList.add('btn-success')
+                for(let row of game.sea)
+                    for(let square of row){
+                        square.clickable = false
+                    }
+                net.ready()
+            }
         }
         contentContainer.appendChild(readyButton)
+    }
+
+    updateProgressBar() {
+        document.getElementById('warshipsProgressBar').setAttribute('aria-valuenow', `${game.warshipsLocations.length}`)
+        document.getElementById('warshipsProgressBar').style.width = `${game.warshipsLocations.length / 20 * 100}%`
+        document.getElementById('warshipsProgressBar').innerHTML = `${game.warshipsLocations.length}`
     }
 
 }
