@@ -64,4 +64,12 @@ io.on('connection', socket => {
         catch (err) { }
     })
 
+    socket.on('disconnect', () => {
+        for (i in players) {
+            if (players[i].id == socket.id) {
+                players.splice(i, 1)
+            }
+        }
+    })
+
 })
