@@ -1,12 +1,10 @@
 const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
-//const path = require('path')
 const io = require('socket.io')(server, { cors: { origin: '*' } })
 const port = 3000
 
 let players = []
-let gameRunning = false
 
 app.use(express.static('static'))
 
