@@ -19,8 +19,16 @@ io.on('connection', socket => {
 
     socket.on('login', nickname => {
         if (players.length < 2) {
-            players.push({ nickname: nickname, id: socket.id })
-            socket.emit('login', { dodano: true, id: socket.id })
+            if (players.length == 1) {
+                players.push({ nickname: nickname, id: socket.id })
+                socket.emit('login', { dodano: true, id: socket.id })
+                socket.emit('oponent', players[0].nickname)
+                socket.broadcast.emit('oponent', nickname)
+            }
+            else {
+                players.push({ nickname: nickname, id: socket.id })
+                socket.emit('login', { dodano: true, id: socket.id })
+            }
         }
         else {
             socket.emit('login', { dodano: false })
