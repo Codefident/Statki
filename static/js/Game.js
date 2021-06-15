@@ -4,5 +4,10 @@ class Game {
         this.id = null
         this.oponent = null
         this.sea = []
+        this.warshipsLocations = []
+    }
+
+    start(){
+        
     }
 }

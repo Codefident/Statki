@@ -47,7 +47,8 @@ class UI {
     }
 
     loggedIn() {
-        //document.getElementById('login_container').remove()
+        game.sea = []
+        game.warshipsLocations = []
         this.root.innerHTML = ''
         this.root.classList.remove('d-flex', 'flex-row', 'justify-content-center', 'align-items-center')
         this.displayNavbar()
@@ -100,9 +101,13 @@ class UI {
     }
 
     displaySea() {
+        let contentContainer = document.createElement('div')
+        contentContainer.id = 'contentContainer'
+        this.root.appendChild(contentContainer)
+
         let seaContainer = document.createElement('div')
         seaContainer.id = 'seaContainer'
-        this.root.appendChild(seaContainer)
+        contentContainer.appendChild(seaContainer)
 
         for (let y = 0; y < 10; y++) {
             game.sea.push(new Array())
@@ -110,6 +115,15 @@ class UI {
                 game.sea[y].push(new Square(x, y))
             }
         }
+
+        let readyButton = document.createElement('button')
+        readyButton.id = 'readyButton'
+        readyButton.classList.add('btn', 'btn-outline-success')
+        readyButton.innerHTML = 'Gotowy'
+        readyButton.onclick = () => {
+            net.ready()
+        }
+        contentContainer.appendChild(readyButton)
     }
 
 }

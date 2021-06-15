@@ -3,6 +3,7 @@ class Net {
         this.socket = null
         this.connection()
         this.getOponentNickname()
+        this.startGame()
     }
 
     connection() {
@@ -28,5 +29,13 @@ class Net {
 
     getOponentNickname() {
         this.socket.on('oponent', res => ui.displayOponentNickname(res))
+    }
+
+    ready() {
+        this.socket.emit('ready', { 'id': game.id, 'warships': game.warshipsLocations })
+    }
+
+    startGame() {
+        this.socket.on('start', () => game.start())
     }
 }
